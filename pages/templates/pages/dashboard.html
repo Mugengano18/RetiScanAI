@@ -1,0 +1,30 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>RetiScan | Dashboard</title>
+
+    <!-- css link -->
+    <link href="{% static 'css/dashboard.css' %}" rel="stylesheet" />
+  </head>
+  <body>
+    <!-- dashboard section -->
+    <div class="dashboard-container">
+      <div class="navigation">
+        <h2>John Doe</h2>
+        <ul class="nav-items">
+          <li>
+            <a href="#">Dashboard</a>
+          </li>
+          <li>
+            <a href="#">Users</a>
+          </li>
+        </ul>
+        <a href="#" class="logout-btn">Logout</a>
+      </div>
+    </div>
+  </body>
+</html>
