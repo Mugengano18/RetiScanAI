@@ -11,6 +11,13 @@
     <link href="{% static 'css/dashboard.css' %}" rel="stylesheet" />
   </head>
   <body>
+    <div class="row">
+      <div class="col-md-6 end">
+        {% if messages %} {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %} {% endif %}
+      </div>
+    </div>
     <!-- dashboard section -->
     <div class="dashboard-container">
       <div class="navigation">
@@ -24,6 +31,50 @@
           </li>
         </ul>
         <a href="#" class="logout-btn">Logout</a>
+      </div>
+      <div class="dashboard">
+        <div class="search-box">
+          <input
+            type="text"
+            name="search"
+            id="search"
+            placeholder="Search here ..."
+          />
+        </div>
+        <div class="container">
+          <ul class="responsive-table">
+            <li class="table-header">
+              <div class="col col-1">Name</div>
+              <div class="col col-2">Age</div>
+              <div class="col col-3">Gender</div>
+              <div class="col col-4">Result</div>
+            </li>
+            <li class="table-row">
+              <div class="col col-1" data-label="Name">John Doe</div>
+              <div class="col col-2" data-label="Age">70</div>
+              <div class="col col-3" data-label="Gender">Famale</div>
+              <div class="col col-4" data-label="Result">Negative</div>
+            </li>
+            <li class="table-row">
+              <div class="col col-1" data-label="Name">John Doe</div>
+              <div class="col col-2" data-label="Age">70</div>
+              <div class="col col-3" data-label="Gender">Famale</div>
+              <div class="col col-4" data-label="Result">Negative</div>
+            </li>
+            <li class="table-row">
+              <div class="col col-1" data-label="Name">John Doe</div>
+              <div class="col col-2" data-label="Age">70</div>
+              <div class="col col-3" data-label="Gender">Famale</div>
+              <div class="col col-4" data-label="Result">Negative</div>
+            </li>
+            <li class="table-row">
+              <div class="col col-1" data-label="Name">John Doe</div>
+              <div class="col col-2" data-label="Age">70</div>
+              <div class="col col-3" data-label="Gender">Famale</div>
+              <div class="col col-4" data-label="Result">Negative</div>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </body>

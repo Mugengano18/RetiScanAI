@@ -9,6 +9,7 @@
               <h2 class="text-uppercase text-center mb-5">Login</h2>
 
               <form method="POST">
+                {% csrf_token %}
                 <div data-mdb-input-init class="form-outline mb-4">
                   <input
                     type="email"

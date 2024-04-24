@@ -10,7 +10,6 @@
     <meta content="" name="keywords" />
 
     <!-- Favicons -->
-  
 
     <!-- Google Fonts -->
     <link
@@ -45,6 +44,13 @@
   </head>
 
   <body>
+    <div class="row">
+      <div class="col-md-6 end">
+        {% if messages %} {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %} {% endif %}
+      </div>
+    </div>
     {% block content%} {% endblock %}
 
     <!-- Vendor JS Files -->
