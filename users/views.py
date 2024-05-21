@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.contrib.auth import get_user_model
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 
 def userRegister(request):
     if request.method == "POST":
@@ -43,3 +43,7 @@ def userLogin(request):
             return redirect('login')
     else:
         return render(request, 'users/signin.html')
+    
+def userLogout(request):
+    logout(request)
+    return redirect("home")

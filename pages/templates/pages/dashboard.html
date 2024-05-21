@@ -1,81 +1,139 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <title>RetiScan | Dashboard</title>
-
-    <!-- css link -->
-    <link href="{% static 'css/dashboard.css' %}" rel="stylesheet" />
-  </head>
-  <body>
-    <div class="row">
-      <div class="col-md-6 end">
-        {% if messages %} {% for message in messages %}
-        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
-        {% endfor %} {% endif %}
-      </div>
-    </div>
-    <!-- dashboard section -->
-    <div class="dashboard-container">
-      <div class="navigation">
-        <h2>John Doe</h2>
-        <ul class="nav-items">
-          <li>
-            <a href="#">Dashboard</a>
+{% extends "base.html" %} {% load static %} {% block content %}
+<div class="container-fluid">
+  <div class="row flex-nowrap">
+    <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-green">
+      <div
+        class="d-flex flex-column align-items-start align-items-sm-start px-2 pt-1 text-white min-vh-100"
+      >
+        <a
+          href="#"
+          class="d-flex align-items-center text-white text-decoration-none my-5"
+        >
+          <img
+            src="{{ user.profile.image.url }}"
+            alt="profile Image"
+            width="50"
+            height="55"
+            class="rounded-circle"
+          />
+          <span class="d-none d-sm-inline mx-1">
+            <p style="font-size: 0.9rem; margin-bottom: 0">
+              {{ user.fullname }}
+            </p>
+            <p style="font-size: 0.8rem; margin-bottom: 0">{{ user.email }}</p>
+          </span>
+        </a>
+        <ul
+          class="nav nav-pills d-flex flex-column mb-sm-auto mb-0 sidebar-nav"
+          id="menu"
+        >
+          <li class="nav-item">
+            <a href="#" class="nav-link px-0 align-middle text-white">
+              <i class="fs-4 bi-house"></i>
+              <span class="ms-1 d-none d-sm-inline">DashBoard</span>
+            </a>
           </li>
           <li>
-            <a href="#">Users</a>
+            <a href="#" class="nav-link px-0 align-middle text-white">
+              <i class="fs-4 bi-people"></i>
+              <span class="ms-1 d-none d-sm-inline">Users</span>
+            </a>
+          </li>
+          <li>
+            <a
+              href="{% url 'logout'%}"
+              class="nav-link px-0 align-middle text-white"
+            >
+              <i class="fs-4 bi-box-arrow-left"></i>
+              <span class="ms-1 d-none d-sm-inline">Logout</span>
+            </a>
           </li>
         </ul>
-        <a href="#" class="logout-btn">Logout</a>
-      </div>
-      <div class="dashboard">
-        <div class="search-box">
-          <input
-            type="text"
-            name="search"
-            id="search"
-            placeholder="Search here ..."
-          />
-        </div>
-        <div class="container">
-          <ul class="responsive-table">
-            <li class="table-header">
-              <div class="col col-1">Name</div>
-              <div class="col col-2">Age</div>
-              <div class="col col-3">Gender</div>
-              <div class="col col-4">Result</div>
-            </li>
-            <li class="table-row">
-              <div class="col col-1" data-label="Name">John Doe</div>
-              <div class="col col-2" data-label="Age">70</div>
-              <div class="col col-3" data-label="Gender">Famale</div>
-              <div class="col col-4" data-label="Result">Negative</div>
-            </li>
-            <li class="table-row">
-              <div class="col col-1" data-label="Name">John Doe</div>
-              <div class="col col-2" data-label="Age">70</div>
-              <div class="col col-3" data-label="Gender">Famale</div>
-              <div class="col col-4" data-label="Result">Negative</div>
-            </li>
-            <li class="table-row">
-              <div class="col col-1" data-label="Name">John Doe</div>
-              <div class="col col-2" data-label="Age">70</div>
-              <div class="col col-3" data-label="Gender">Famale</div>
-              <div class="col col-4" data-label="Result">Negative</div>
-            </li>
-            <li class="table-row">
-              <div class="col col-1" data-label="Name">John Doe</div>
-              <div class="col col-2" data-label="Age">70</div>
-              <div class="col col-3" data-label="Gender">Famale</div>
-              <div class="col col-4" data-label="Result">Negative</div>
-            </li>
-          </ul>
-        </div>
       </div>
     </div>
-  </body>
-</html>
+    <div class="col py-3">
+      <div class="container-fluid p-4">
+        <div class="row align-items-start">
+          <div class="col">
+            <h2 class="underlined-text">Patients</h2>
+          </div>
+          <div class="col-12 col-md-6 col-lg-3 d-flex align-items-center">
+            <form class="d-flex flex-column flex-md-row w-100">
+              <div
+                class="input-group rounded-pill me-2 mb-3 mb-md-0 flex-grow-1"
+              >
+                <input
+                  class="form-control w-75"
+                  type="search"
+                  placeholder="Search Patients"
+                  aria-label="Search"
+                />
+                <a href="#" class="btn btn-green" type="submit"
+                  ><i class="bi bi-search bi-sm"></i
+                ></a>
+              </div>
+              <a
+                href="{% url 'form' %}"
+                class="btn btn-green rounded-pill d-flex"
+              >
+                <i class="bi bi-plus"></i>New
+              </a>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="container-fluid px-5">
+        <table class="table">
+          <thead>
+            <tr class="text-success table-primary">
+              <th scope="col">Name</th>
+              <th scope="col">Age</th>
+              <th scope="col">Gender</th>
+              <th scope="col">Result</th>
+            </tr>
+          </thead>
+          <tbody class="table-group-divider">
+            <tr>
+              <td>John Doe</td>
+              <td>87</td>
+              <td>Male</td>
+              <td>Moderate</td>
+            </tr>
+            <tr>
+              <td>John Doe</td>
+              <td>87</td>
+              <td>Male</td>
+              <td>Moderate</td>
+            </tr>
+            <tr>
+              <td>John Doe</td>
+              <td>87</td>
+              <td>Male</td>
+              <td>Moderate</td>
+            </tr>
+            <tr>
+              <td>John Doe</td>
+              <td>87</td>
+              <td>Male</td>
+              <td>Moderate</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+          <li class="page-item">
+            <a class="page-link" href="#">Previous</a>
+          </li>
+          <li class="page-item"><a class="page-link" href="#">1</a></li>
+          <li class="page-item"><a class="page-link" href="#">2</a></li>
+          <li class="page-item"><a class="page-link" href="#">3</a></li>
+          <li class="page-item">
+            <a class="page-link" href="#">Next</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</div>
+{%endblock%}
