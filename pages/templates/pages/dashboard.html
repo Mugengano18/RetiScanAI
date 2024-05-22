@@ -36,7 +36,7 @@
           <li>
             <a href="#" class="nav-link px-0 align-middle text-white">
               <i class="fs-4 bi-people"></i>
-              <span class="ms-1 d-none d-sm-inline">Users</span>
+              <span class="ms-1 d-none d-sm-inline">Patients</span>
             </a>
           </li>
           <li>
@@ -87,36 +87,27 @@
           <thead>
             <tr class="text-success table-primary">
               <th scope="col">Name</th>
-              <th scope="col">Age</th>
+              <th scope="col">Date</th>
+              <th scope="col">Phone Number</th>
               <th scope="col">Gender</th>
               <th scope="col">Result</th>
             </tr>
           </thead>
           <tbody class="table-group-divider">
+            {% for patient in patients %}
             <tr>
-              <td>John Doe</td>
-              <td>87</td>
-              <td>Male</td>
+              <td>
+                <a href="{% url 'result' patient.id %}" class="text-black"
+                  >{{patient.full_name}}</a
+                >
+              </td>
+              <td>{{patient.birth_date}}</td>
+              <td>{{patient.phone_number}}</td>
+              <td>{{patient.gender}}</td>
               <td>Moderate</td>
             </tr>
-            <tr>
-              <td>John Doe</td>
-              <td>87</td>
-              <td>Male</td>
-              <td>Moderate</td>
-            </tr>
-            <tr>
-              <td>John Doe</td>
-              <td>87</td>
-              <td>Male</td>
-              <td>Moderate</td>
-            </tr>
-            <tr>
-              <td>John Doe</td>
-              <td>87</td>
-              <td>Male</td>
-              <td>Moderate</td>
-            </tr>
+
+            {% endfor %}
           </tbody>
         </table>
       </div>

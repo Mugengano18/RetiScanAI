@@ -11,7 +11,11 @@
 
         <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
         <li>
+          {% if user.is_authenticated %}
+          <a class="getstarted scrollto" href="{% url 'logout' %}">logout</a>
+          {% else %}
           <a class="getstarted scrollto" href="{% url 'login' %}">login</a>
+          {% endif %}
         </li>
       </ul>
       <i class="bi bi-list mobile-nav-toggle"></i>

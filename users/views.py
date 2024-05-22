@@ -9,6 +9,7 @@ def userRegister(request):
     if request.method == "POST":
         fullname = request.POST.get('fullname')
         email = request.POST.get('email')
+        role = request.POST.get('role')
         password = request.POST.get('password')
         password2 = request.POST.get('password2')
 
@@ -17,7 +18,7 @@ def userRegister(request):
                 messages.error(request, 'That email is already in use')
                 return redirect('register')
             else:
-                user = get_user_model().objects.create_user(email=email, password=password, fullname=fullname)
+                user = get_user_model().objects.create_user(email=email, password=password, role=role, fullname=fullname)
                 user.save()
                 messages.success(request, 'You are now registered and can log in')
                 return redirect('login')
@@ -37,6 +38,7 @@ def userLogin(request):
         if user is not None:
             login(request, user)
             messages.success(request, 'You are now logged in')
+            print("login     ", user)
             return redirect('dashboard')
         else:
             messages.error(request, 'Invalid credentials')
