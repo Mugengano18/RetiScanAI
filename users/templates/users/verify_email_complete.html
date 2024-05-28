@@ -1,0 +1,71 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Account Activated</title>
+    <link
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      .email-verified-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background-color: #f8f9fa;
+      }
+      .email-verified-card {
+        background: #fff;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        text-align: center;
+      }
+      .email-verified-icon {
+        font-size: 4rem;
+        color: #1f544c;
+        margin-bottom: 1rem;
+      }
+      .email-verified-btn {
+        background-color: #1f544c;
+        border: none;
+        color: #fff;
+        padding: 0.5rem 1rem;
+        font-size: 1rem;
+        border-radius: 4px;
+        text-decoration: none;
+        display: inline-block;
+      }
+      .email-verified-btn:hover {
+        text-decoration: none;
+        color: #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="email-verified-container">
+      <div class="email-verified-card">
+        <div class="email-verified-icon">
+          <img src="{% static 'img/favicon.png' %}" alt="Verified Icon" />
+        </div>
+        <h2>Account Activated</h2>
+        <p>Hello There,</p>
+        <p>
+          Thank you, your email has been verified. Your account is now active.
+        </p>
+        <p>Please use the link below to login to your account.</p>
+        <a href="{% url 'login' %}" class="email-verified-btn"
+          >Login to Your Account</a
+        >
+        <p class="mt-3">Thank you for choosing RetiscanAI</p>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  </body>
+</html>

@@ -583,3 +583,34 @@ section {
     width: 100%;
   }
 }
+
+/* Email verification */
+.email-verified-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f8f9fa;
+}
+.email-verified-card {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+.email-verified-icon {
+  font-size: 4rem;
+  color: #1f544c;
+  margin-bottom: 1rem;
+}
+.email-verified-btn {
+  background-color: #1f544c;
+  border: none;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  border-radius: 4px;
+  text-decoration: none;
+  display: inline-block;
+}

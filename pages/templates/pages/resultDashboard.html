@@ -40,7 +40,7 @@
     <div class="row mb-3">
         <div class="col-12">
             <div class="alert alert-primary" role="alert">
-                Negative For DR
+                {{patient.predicted_class}}
             </div>
         </div>
     </div>
@@ -49,22 +49,19 @@
             <div class="card" style="height: 450px;">
                 <div class="card-body text-center">
                     <h6 class="card-subtitle mb-2 text-primary">Eye image</h6>
-                    <img src="{{patient.eye_image.url}}" class="img-fluid rounded" alt="Eye image">
+                    <img src="{{patient.eye_image.url}}" class="img-fluid rounded object-fit-cover" alt="Eye image">
                 </div>
             </div>
         </div>
 
-        <div class="col-md-8 mb-3">
-            <div class="card">
-                <div class="card-body">
-                    <h6 class="card-subtitle mb-2 text-muted">Sharp summary</h6>
-                    <div class="border rounded" style="height: 400px;"></div>
+        <div class="col-md-4 mb-3">
+            <div class="card" style="height: 450px;">
+                <div class="card-body text-center">
+                    <h6 class="card-subtitle mb-2 text-primary">Grad-CAM Heatmap:</h6>
+                    <img src="data:image/png;base64,{{patient.gradcam_image|safe}}" class="img-fluid rounded object-fit-cover" alt="Grad-CAM Heatmap">
                 </div>
             </div>
         </div>
-       
-      
-      
     </div>
     <a href="{% url 'dashboard' %}" class="btn btn-primary">back to Dashboard</a>
 </div>

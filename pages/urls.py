@@ -8,4 +8,5 @@ urlpatterns = [
     path('result/<int:patient_id>/', resultDashboard, name="result"),
     path('form/', patientForm, name="form"),
     path('update_patient/<int:patient_id>/', update_patient, name="update_patient"),
+    path('check/', check, name="check"),
 ]
