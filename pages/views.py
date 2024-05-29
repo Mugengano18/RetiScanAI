@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import Patient, PatientImage
+from django.db.models import Count
 
 from .utils_model import load_and_preprocess_image, make_gradcam_heatmap, display_gradcam
 from .utils.sms_utils import send_sms
@@ -18,7 +19,30 @@ def home(request):
 @login_required
 def dashboard(request):
     patients = Patient.objects.all()
-    return render(request, 'pages/dashboard.html', {'patients': patients})
+    no_dr_patients = Patient.objects.exclude(predicted_class_name='No_DR')
+
+    # Count the number of patients in each class
+    class_counts = Patient.objects.values('predicted_class_name').annotate(count=Count('id'))
+
+    # Convert the class_counts queryset to a dictionary
+    class_counts_dict = {item['predicted_class_name']: item['count'] for item in class_counts}
+
+    # Count the number of patients in each class, excluding 'No_DR'
+    gender_counts = no_dr_patients.values('gender').annotate(count=Count('id'))
+
+    # Convert the gender_counts queryset to a dictionary
+    gender_counts_dict = {item['gender']: item['count'] for item in gender_counts}
+
+    print("+++++++++++++++++++++++", gender_counts_dict)
+
+    context = {
+        'patients': patients,
+        'class_counts': class_counts_dict,
+        'no_dr_patients': no_dr_patients,
+        'gender_counts': gender_counts_dict,
+    }
+
+    return render(request, 'pages/dashboard.html', context)
 @login_required
 def resultDashboard(request,patient_id):
     patient = get_object_or_404(Patient, id=patient_id)

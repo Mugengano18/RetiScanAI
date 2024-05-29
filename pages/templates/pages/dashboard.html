@@ -54,6 +54,33 @@
     <div class="col py-3">
       <div class="container-fluid p-4">
         <div class="row align-items-start">
+          <div class="row">
+            <!-- Column -->
+            <div class="col-lg-8">
+              <div class="card">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-12">
+                      <div class="d-flex flex-wrap align-items-center">
+                        <div>
+                          <h3 class="card-title">DR Overview</h3>
+                        </div>
+                      </div>
+                      <canvas id="barChart"></canvas>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="card">
+                <h3 class="card-title">Gender with Dr</h3>
+                <div class="card-body">
+                  <canvas id="pieChart"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
           <div class="col">
             <h2 class="underlined-text">Patients</h2>
           </div>
@@ -104,7 +131,7 @@
               <td>{{patient.birth_date}}</td>
               <td>{{patient.phone_number}}</td>
               <td>{{patient.gender}}</td>
-              <td>Moderate</td>
+              <td>{{patient.predicted_class_name}}</td>
             </tr>
 
             {% endfor %}
