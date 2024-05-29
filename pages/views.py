@@ -21,19 +21,17 @@ def dashboard(request):
     patients = Patient.objects.all()
     no_dr_patients = Patient.objects.exclude(predicted_class_name='No_DR')
 
-    # Count the number of patients in each class
+   
     class_counts = Patient.objects.values('predicted_class_name').annotate(count=Count('id'))
 
-    # Convert the class_counts queryset to a dictionary
+    
     class_counts_dict = {item['predicted_class_name']: item['count'] for item in class_counts}
 
-    # Count the number of patients in each class, excluding 'No_DR'
+
     gender_counts = no_dr_patients.values('gender').annotate(count=Count('id'))
 
-    # Convert the gender_counts queryset to a dictionary
+    
     gender_counts_dict = {item['gender']: item['count'] for item in gender_counts}
-
-    print("+++++++++++++++++++++++", gender_counts_dict)
 
     context = {
         'patients': patients,
