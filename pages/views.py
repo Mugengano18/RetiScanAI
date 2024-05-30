@@ -9,6 +9,7 @@ import numpy as np
 import tensorflow as tf
 from .class_value import get_class
 from django.http import JsonResponse
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 # Load the pre-trained model
 model = tf.keras.models.load_model('C:\\Users\\Michel\\Documents\\Final_year_project\\diabetic_retinopathy_model_updated.h5')
 
@@ -20,6 +21,14 @@ def home(request):
 @login_required
 def dashboard(request):
     patients = Patient.objects.all()
+    p = Paginator(patients, 10)
+    page_number = request.GET.get('page')
+    try:
+        page_obj = p.get_page(page_number)
+    except PageNotAnInteger:
+        page_obj = p.page(1)
+    except EmptyPage:
+        page_obj = p.page(p.num_pages)
     no_dr_patients = Patient.objects.exclude(predicted_class_name='No_DR')
 
    
@@ -39,6 +48,7 @@ def dashboard(request):
         'class_counts': class_counts_dict,
         'no_dr_patients': no_dr_patients,
         'gender_counts': gender_counts_dict,
+        'page_obj': page_obj,
     }
 
     return render(request, 'pages/dashboard.html', context)

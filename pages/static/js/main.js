@@ -196,14 +196,25 @@
 const nav_patient = document.getElementById("nav_patient");
 const nav_dashboard = document.getElementById("nav_dashboard");
 
+// Set the initial display based on localStorage
+if (localStorage.getItem("currentPage") === "dashboard") {
+  document.getElementById("dashboard_section").style.display = "block";
+  document.getElementById("patient_section").style.display = "none";
+} else {
+  document.getElementById("dashboard_section").style.display = "none";
+  document.getElementById("patient_section").style.display = "block";
+}
+
 nav_patient.addEventListener("click", () => {
   console.log("clicked");
   document.getElementById("dashboard_section").style.display = "none";
   document.getElementById("patient_section").style.display = "block";
+  localStorage.setItem("currentPage", "patient");
 });
 
 nav_dashboard.addEventListener("click", () => {
   console.log("clicked");
   document.getElementById("dashboard_section").style.display = "block";
   document.getElementById("patient_section").style.display = "none";
+  localStorage.setItem("currentPage", "dashboard");
 });

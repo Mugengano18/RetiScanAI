@@ -158,6 +158,11 @@ body {
   font-weight: bold;
 }
 
+.page-item.active .page-link {
+  background-color: #1f544c;
+  color: white;
+}
+
 /* ---------- MEDIA QUERIES ---------- */
 
 /* Medium <= 992px */
