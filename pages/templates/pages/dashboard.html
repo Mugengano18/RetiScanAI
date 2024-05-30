@@ -1,86 +1,51 @@
 {% extends "base.html" %} {% load static %} {% block content %}
-<div class="container-fluid">
-  <div class="row flex-nowrap">
-    <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-green">
-      <div
-        class="d-flex flex-column align-items-start align-items-sm-start px-2 pt-1 text-white min-vh-100"
+<div class="grid-container">
+  <!-- Sidebar -->
+  <aside id="sidebar">
+    <div class="sidebar-title">
+      <div class="sidebar-brand">RetiscanAI</div>
+      <span class="material-icons-outlined" onclick="closeSidebar()"
+        >close</span
       >
-        <a
-          href="#"
-          class="d-flex align-items-center text-white text-decoration-none my-5"
-        >
-          <img
-            src="{{ user.profile.image.url }}"
-            alt="profile Image"
-            width="50"
-            height="55"
-            class="rounded-circle"
-          />
-          <span class="d-none d-sm-inline mx-1">
-            <p style="font-size: 0.9rem; margin-bottom: 0">
-              {{ user.fullname }}
-            </p>
-            <p style="font-size: 0.8rem; margin-bottom: 0">{{ user.email }}</p>
-          </span>
-        </a>
-        <ul
-          class="nav nav-pills d-flex flex-column mb-sm-auto mb-0 sidebar-nav"
-          id="menu"
-        >
-          <li class="nav-item">
-            <a href="#" class="nav-link px-0 align-middle text-white">
-              <i class="fs-4 bi-house"></i>
-              <span class="ms-1 d-none d-sm-inline">DashBoard</span>
-            </a>
-          </li>
-          <li>
-            <a href="#" class="nav-link px-0 align-middle text-white">
-              <i class="fs-4 bi-people"></i>
-              <span class="ms-1 d-none d-sm-inline">Patients</span>
-            </a>
-          </li>
-          <li>
-            <a
-              href="{% url 'logout'%}"
-              class="nav-link px-0 align-middle text-white"
-            >
-              <i class="fs-4 bi-box-arrow-left"></i>
-              <span class="ms-1 d-none d-sm-inline">Logout</span>
-            </a>
-          </li>
-        </ul>
+    </div>
+
+    <ul class="sidebar-list">
+      <li class="sidebar-list-item" id="nav_dashboard">
+        <a href="#">Dashboard </a>
+      </li>
+      <li class="sidebar-list-item" id="nav_patient">
+        <a href="#">Patients </a>
+      </li>
+
+      <li class="sidebar-list-item">
+        <a href="{% url 'logout' %}" target="_blank"> logout </a>
+      </li>
+    </ul>
+  </aside>
+  <!-- End Sidebar -->
+
+  <!-- Main -->
+  <main class="main-container" id="dashboard_section">
+    <div class="main-title">
+      <h2>DASHBOARD</h2>
+    </div>
+
+    <div class="charts">
+      <div class="charts-card">
+        <h2 class="chart-title">Gender with DR</h2>
+        <canvas id="pieChart"></canvas>
+      </div>
+      <div class="charts-card">
+        <h2 class="chart-title">DR Categories</h2>
+        <canvas id="barChart"></canvas>
       </div>
     </div>
+  </main>
+  <!-- End Main -->
+  <main class="main-container" id="patient_section">
     <div class="col py-3">
       <div class="container-fluid p-4">
         <div class="row align-items-start">
-          <div class="row">
-            <!-- Column -->
-            <div class="col-lg-8">
-              <div class="card">
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col-12">
-                      <div class="d-flex flex-wrap align-items-center">
-                        <div>
-                          <h3 class="card-title">DR Overview</h3>
-                        </div>
-                      </div>
-                      <canvas id="barChart"></canvas>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-4">
-              <div class="card">
-                <h3 class="card-title">Gender with Dr</h3>
-                <div class="card-body">
-                  <canvas id="pieChart"></canvas>
-                </div>
-              </div>
-            </div>
-          </div>
           <div class="col">
             <h2 class="underlined-text">Patients</h2>
           </div>
@@ -95,15 +60,15 @@
                   placeholder="Search Patients"
                   aria-label="Search"
                 />
-                <a href="#" class="btn btn-green" type="submit"
-                  ><i class="bi bi-search bi-sm"></i
-                ></a>
+                <button class="btn btn-green" type="submit">
+                  <i class="bi bi-search bi-sm"></i>
+                </button>
               </div>
               <a
                 href="{% url 'form' %}"
-                class="btn btn-green rounded-pill d-flex"
+                class="btn btn-green rounded-pill d-flex align-items-center"
               >
-                <i class="bi bi-plus"></i>New
+                <i class="bi bi-plus"></i> New
               </a>
             </form>
           </div>
@@ -124,16 +89,15 @@
             {% for patient in patients %}
             <tr>
               <td>
-                <a href="{% url 'result' patient.id %}" class="text-black"
-                  >{{patient.full_name}}</a
-                >
+                <a href="{% url 'result' patient.id %}" class="text-black">
+                  {{ patient.full_name }}
+                </a>
               </td>
-              <td>{{patient.birth_date}}</td>
-              <td>{{patient.phone_number}}</td>
-              <td>{{patient.gender}}</td>
+              <td>{{ patient.birth_date }}</td>
+              <td>{{ patient.phone_number }}</td>
+              <td>{{ patient.gender }}</td>
               <td>{{patient.predicted_class_name}}</td>
             </tr>
-
             {% endfor %}
           </tbody>
         </table>
@@ -152,6 +116,6 @@
         </ul>
       </nav>
     </div>
-  </div>
+  </main>
 </div>
 {%endblock%}

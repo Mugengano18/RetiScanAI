@@ -8,6 +8,7 @@ from .utils.sms_utils import send_sms
 import numpy as np
 import tensorflow as tf
 from .class_value import get_class
+from django.http import JsonResponse
 # Load the pre-trained model
 model = tf.keras.models.load_model('C:\\Users\\Michel\\Documents\\Final_year_project\\diabetic_retinopathy_model_updated.h5')
 
@@ -141,4 +142,10 @@ def check(request):
         }
         return render(request, 'pages/check.html', context)
     return render(request, 'pages/check.html')
+
+def gender_counts_json(request):
+    no_dr_patients = Patient.objects.exclude(predicted_class_name='No_DR')
+    gender_counts = no_dr_patients.values('gender').annotate(count=Count('id'))
+    gender_counts_dict = {item['gender']: item['count'] for item in gender_counts}
+    return JsonResponse(gender_counts_dict)
 

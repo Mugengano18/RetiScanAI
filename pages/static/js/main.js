@@ -287,3 +287,18 @@
    */
   new PureCounter();
 })();
+
+const nav_patient = document.getElementById("nav_patient");
+const nav_dashboard = document.getElementById("nav_dashboard");
+
+nav_patient.addEventListener("click", () => {
+  console.log("clicked");
+  document.getElementById("dashboard_section").style.display = "none";
+  document.getElementById("patient_section").style.display = "block";
+});
+
+nav_dashboard.addEventListener("click", () => {
+  console.log("clicked");
+  document.getElementById("dashboard_section").style.display = "block";
+  document.getElementById("patient_section").style.display = "none";
+});
