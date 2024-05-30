@@ -10,6 +10,7 @@ import tensorflow as tf
 from .class_value import get_class
 from django.http import JsonResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.db.models import Q
 # Load the pre-trained model
 model = tf.keras.models.load_model('C:\\Users\\Michel\\Documents\\Final_year_project\\diabetic_retinopathy_model_updated.h5')
 
@@ -20,7 +21,12 @@ def home(request):
     return render(request, 'pages/index.html')
 @login_required
 def dashboard(request):
-    patients = Patient.objects.all()
+    search_patient = request.GET.get('search')
+    if search_patient:
+        patients = Patient.objects.filter(Q(full_name__icontains=search_patient) | Q(description__icontains=search_patient) | Q(predicted_class_name__icontains=search_patient) | Q(id__icontains=search_patient))
+    else:
+        patients = Patient.objects.all()
+
     p = Paginator(patients, 10)
     page_number = request.GET.get('page')
     try:
@@ -29,18 +35,13 @@ def dashboard(request):
         page_obj = p.page(1)
     except EmptyPage:
         page_obj = p.page(p.num_pages)
+
     no_dr_patients = Patient.objects.exclude(predicted_class_name='No_DR')
 
-   
     class_counts = Patient.objects.values('predicted_class_name').annotate(count=Count('id'))
-
-    
     class_counts_dict = {item['predicted_class_name']: item['count'] for item in class_counts}
 
-
     gender_counts = no_dr_patients.values('gender').annotate(count=Count('id'))
-
-    
     gender_counts_dict = {item['gender']: item['count'] for item in gender_counts}
 
     context = {
@@ -52,6 +53,7 @@ def dashboard(request):
     }
 
     return render(request, 'pages/dashboard.html', context)
+
 @login_required
 def resultDashboard(request,patient_id):
     patient = get_object_or_404(Patient, id=patient_id)

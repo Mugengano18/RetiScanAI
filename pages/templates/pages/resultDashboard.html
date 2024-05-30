@@ -37,30 +37,33 @@
             </div>
         </div>
     </div>
-    <div class="row mb-3">
-        <div class="col-12">
-            <div class="alert alert-primary" role="alert">
-                {{patient.predicted_class_name}}
-            </div>
-        </div>
-    </div>
     <div class="row">
         <div class="col-md-4 mb-3">
-            <div class="card" style="height: 450px;">
-                <div class="card-body text-center">
-                    <h6 class="card-subtitle mb-2 text-primary">Eye image</h6>
-                    <img src="{{patient.eye_image.url}}" class="img-fluid rounded object-fit-cover" alt="Eye image">
-                </div>
+            <div class="card" >
+                    <h6 class="card-title mb-2 text-black text-center pt-4">Original Retina image</h6>
+                    <div class="card-body">
+                        <img src="{{patient.eye_image.url}}" class="img-fluid rounded object-fit-cover" style="width: 100%;" alt="Eye image">
+                    </div>
             </div>
         </div>
 
-        <div class="col-md-4 mb-3">
-            <div class="card" style="height: 450px;">
-                <div class="card-body text-center">
-                    <h6 class="card-subtitle mb-2 text-primary">Grad-CAM Heatmap:</h6>
-                    <img src="data:image/png;base64,{{patient.gradcam_image|safe}}" class="img-fluid rounded object-fit-cover" alt="Grad-CAM Heatmap">
+        <div class="col-md-8 mb-3 border rounded-3 d-flex">
+            <div class="card col-md-6 border-0" >
+                <h6 class="card-title mb-2 text-black text-center pt-4">Grad-CAM Heatmap</h6>
+                <div class="card-body">
+                    <img src="data:image/png;base64,{{patient.gradcam_image|safe}}" class="img-fluid rounded object-fit-cover" style="width: 100%; height: auto;" alt="Grad-CAM Heatmap">
                 </div>
-            </div>
+        </div>
+        <div class="card col-md-6 border-0 d-flex justify-content-between align-items-center">
+            <ul class="list-group">
+                <li class="list-group-item">Predicted Stage: {{patient.predicted_class_name}}</li>
+                <li class="list-group-item">Probabilities: {{patient.probability}}</li>
+                <li class="list-group-item">A third item</li>
+                <li class="list-group-item">A fourth item</li>
+                <li class="list-group-item">And a fifth one</li>
+              </ul>
+        </div>
+            
         </div>
     </div>
     <a href="{% url 'dashboard' %}" class="btn btn-primary">back to Dashboard</a>

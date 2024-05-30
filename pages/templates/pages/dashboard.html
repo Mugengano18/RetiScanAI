@@ -50,7 +50,7 @@
             <h2 class="underlined-text">Patients</h2>
           </div>
           <div class="col-12 col-md-6 col-lg-3 d-flex align-items-center">
-            <form class="d-flex flex-column flex-md-row w-100">
+            <form class="d-flex flex-column flex-md-row w-100" action="{% url 'dashboard' %}">
               <div
                 class="input-group rounded-pill me-2 mb-3 mb-md-0 flex-grow-1"
               >
@@ -59,18 +59,20 @@
                   type="search"
                   placeholder="Search Patients"
                   aria-label="Search"
+                  name="search"
                 />
                 <button class="btn btn-green" type="submit">
                   <i class="bi bi-search bi-sm"></i>
                 </button>
               </div>
+            </form>
               <a
                 href="{% url 'form' %}"
                 class="btn btn-green rounded-pill d-flex align-items-center"
               >
                 <i class="bi bi-plus"></i> New
               </a>
-            </form>
+            
           </div>
         </div>
       </div>
