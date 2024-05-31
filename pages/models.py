@@ -31,3 +31,12 @@ class PatientImage(models.Model):
 
     def __str__(self):
         return self.name
+    
+class ResultDescription(models.Model):
+    name = models.CharField(max_length=250, null=True, blank=True)
+    characteristic = models.TextField(null=True, blank=True)
+    quadrant_analysis=models.TextField(null=True, blank=True)
+    action = models.TextField(null=True, blank=True)
+
+    def __str__(self):
+        return self.name

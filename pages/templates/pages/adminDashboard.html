@@ -11,11 +11,11 @@
 
     <ul class="sidebar-list">
       <li class="sidebar-list-item" id="nav_patient">
-        <a href="#">Patients </a>
+        <a href="#">Users </a>
       </li>
 
       <li class="sidebar-list-item">
-        <a href="{% url 'logout' %}" target="_blank"> logout </a>
+        <a href="{% url 'logout' %}"> logout </a>
       </li>
     </ul>
   </aside>
@@ -30,16 +30,16 @@
             <h2 class="underlined-text">Users</h2>
           </div>
           <div class="col-12 col-md-6 col-lg-3 d-flex align-items-center">
-            <form class="d-flex flex-column flex-md-row w-100" action="{% url 'dashboard' %}">
+            <form class="d-flex flex-column flex-md-row w-100" action="{% url 'admin_dashboard' %}">
               <div
                 class="input-group rounded-pill me-2 mb-3 mb-md-0 flex-grow-1"
               >
                 <input
                   class="form-control w-75"
                   type="search"
-                  placeholder="Search Patients"
+                  placeholder="Search user"
                   aria-label="Search"
-                  name="search"
+                  name="search_user"
                 />
                 <button class="btn btn-green" type="submit">
                   <i class="bi bi-search bi-sm"></i>
@@ -47,7 +47,7 @@
               </div>
             </form>
               <a
-                href="{% url 'form' %}"
+                href="{% url 'register' %}"
                 class="btn btn-green rounded-pill d-flex align-items-center"
               >
                 <i class="bi bi-plus"></i> New
@@ -64,23 +64,20 @@
               <th scope="col">Fullname</th>
               <th scope="col">Email</th>
               <th scope="col">Role</th>
-              <th scope="col">Gender</th>
+              <th scope="col">Action</th>
             </tr>
           </thead>
           <tbody class="table-group-divider">
-            {% for patient in page_obj %}
+            {% for user in page_obj %}
 
             <tr>
-              <td>{{ patient.id }}</td>
+              <td>{{ forloop.counter0|add:start_number }}</td>
               <td>
-                <a href="{% url 'result' patient.id %}" class="text-black">
-                  {{ patient.full_name }}
-                </a>
+                  {{ user.fullname }}
               </td>
-              <td>{{ patient.birth_date }}</td>
-              <td>{{ patient.phone_number }}</td>
-              <td>{{ patient.gender }}</td>
-              <td>{{patient.predicted_class_name}}</td>
+              <td>{{ user.email }}</td>
+              <td>{{ user.role }}</td>
+              <td><a href="{% url 'delete_user' user.id %}" class="btn btn-danger">Delete</a></td>
             </tr>
             {% endfor %}
           </tbody>

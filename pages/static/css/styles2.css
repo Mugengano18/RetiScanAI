@@ -1,11 +1,3 @@
-body {
-  margin: 0;
-  padding: 0;
-  background-color: #fff;
-  color: #9e9ea4;
-  font-family: "Montserrat", sans-serif;
-}
-
 .material-icons-outlined {
   vertical-align: middle;
   line-height: 1px;
@@ -225,15 +217,17 @@ body {
 }
 
 .image-wrapper::before {
+  top: 12%;
   width: 5px;
-  height: 100%;
+  height: 77%;
   left: 50%;
   transform: translateX(-50%);
 }
 
 .image-wrapper::after {
   top: 50%;
-  left: 0;
+  left: 13%;
+  width: 77%;
   right: 0;
   height: 5px;
   transform: translateY(-50%);

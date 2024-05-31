@@ -18,7 +18,7 @@
       </li>
 
       <li class="sidebar-list-item">
-        <a href="{% url 'logout' %}" target="_blank"> logout </a>
+        <a href="{% url 'logout' %}"> logout </a>
       </li>
     </ul>
   </aside>
@@ -92,7 +92,7 @@
             {% for patient in page_obj %}
 
             <tr>
-              <td>{{ patient.id }}</td>
+              <td>{{ forloop.counter0|add:start_number }}</td>
               <td>
                 <a href="{% url 'result' patient.id %}" class="text-black">
                   {{ patient.full_name }}

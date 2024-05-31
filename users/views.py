@@ -1,5 +1,4 @@
 from django.shortcuts import render
-
 from django.contrib.auth import get_user_model
 from django.shortcuts import render, redirect
 from django.contrib import messages
@@ -53,13 +52,16 @@ def userLogin(request):
     if request.method == "POST":
         email = request.POST.get('email')
         password = request.POST.get('password')
-
         user = authenticate(request, username=email, password=password)
 
         if user is not None:
             login(request, user)
+            if request.user.is_deleted:
+                messages.error(request, "Your account was deleted! contact Admin")
+                return redirect("login")
             messages.success(request, 'You are now logged in')
-            print("login     ", user)
+            if request.user.is_staff:
+                return redirect("admin_dashboard")
             return redirect('dashboard')
         else:
             messages.error(request, 'Invalid credentials')
