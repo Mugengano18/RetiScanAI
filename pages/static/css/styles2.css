@@ -211,3 +211,30 @@ body {
     display: none;
   }
 }
+
+.image-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.image-wrapper::before,
+.image-wrapper::after {
+  content: "";
+  position: absolute;
+  background: red;
+}
+
+.image-wrapper::before {
+  width: 5px;
+  height: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.image-wrapper::after {
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 5px;
+  transform: translateY(-50%);
+}

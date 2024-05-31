@@ -38,6 +38,7 @@ def make_gradcam_heatmap(img_array, model, last_conv_layer_name, pred_index=None
 
     return heatmap.numpy()
 
+
 def display_gradcam(img_path, heatmap, alpha=0.4):
     img = cv2.imread(img_path)
     img = cv2.resize(img, (224, 224))
@@ -45,7 +46,24 @@ def display_gradcam(img_path, heatmap, alpha=0.4):
     heatmap = np.uint8(255 * heatmap)
     heatmap = cv2.applyColorMap(heatmap, cv2.COLORMAP_JET)
     superimposed_img = heatmap * alpha + img
+
     superimposed_img = np.uint8(superimposed_img)
+
+    # Divide the image into four quadrants
+    height, width, _ = superimposed_img.shape
+    quadrant_height = height // 2
+    quadrant_width = width // 2
+
+    # Combine the quadrants into a single image
+    combined_img = np.zeros_like(superimposed_img)
+    combined_img[:quadrant_height, :quadrant_width] = superimposed_img[:quadrant_height, :quadrant_width]
+    combined_img[:quadrant_height, quadrant_width:] = superimposed_img[:quadrant_height, quadrant_width:]
+    combined_img[quadrant_height:, :quadrant_width] = superimposed_img[quadrant_height:, :quadrant_width]
+    combined_img[quadrant_height:, quadrant_width:] = superimposed_img[quadrant_height:, quadrant_width:]
+
+    # Add grid lines to divide into quadrants (optional)
+    # cv2.line(combined_img, (0, height // 2), (width, height // 2), (0, 0, 255), 2)
+    # cv2.line(combined_img, (width // 2, 0), (width // 2, height), (0, 0, 255), 2)
 
     # Create a buffer to store the real image
     real_image_buffer = io.BytesIO()
@@ -64,4 +82,14 @@ def display_gradcam(img_path, heatmap, alpha=0.4):
     gradcam_image_base64 = base64.b64encode(gradcam_buffer.getvalue()).decode('utf-8')
     plt.close()
 
-    return real_image_base64, gradcam_image_base64
+    # Create a buffer to store the combined quadrants image
+    quadrants_buffer = io.BytesIO()
+    plt.figure(figsize=(5, 5))
+    plt.imshow(cv2.cvtColor(combined_img, cv2.COLOR_BGR2RGB))
+    plt.axis('off')
+    plt.savefig(quadrants_buffer, format='png')
+    quadrants_buffer.seek(0)
+    quadrants_image_base64 = base64.b64encode(quadrants_buffer.getvalue()).decode('utf-8')
+    plt.close()
+
+    return real_image_base64, gradcam_image_base64, quadrants_image_base64

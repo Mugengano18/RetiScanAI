@@ -16,7 +16,9 @@ class Patient(models.Model):
     probability = models.TextField(null=True, blank=True)
     eye_image = models.ImageField(upload_to='eye_images/')
     gradcam_image = models.TextField(null=True, blank=True)
+    quadrants_image = models.TextField(null=True, blank=True)
     description = models.TextField(null=True)
+
     is_confirm = models.BooleanField(default=False)
 
     def __str__(self):

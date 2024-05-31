@@ -91,25 +91,19 @@ def patientForm(request):
 
         # Generate the Grad-CAM heatmap
         heatmap = make_gradcam_heatmap(X_instance, model, last_conv_layer_name,predicted_class)
+       
 
 
         # Display the original image and the Grad-CAM heatmap
-        original_image, gradcam_image = display_gradcam(image_path, heatmap)
+        original_image, gradcam_image, quadrant_image = display_gradcam(image_path, heatmap)
         patient.predicted_class = predicted_class
         patient.gradcam_image = gradcam_image
         patient.predicted_class_name=class_name
         patient.probability=formatted_probabilities
+        patient.quadrants_image = quadrant_image
+
 
         patient.save()
-
-        # context = {
-        # 'predicted_class': predicted_class,
-        # 'original_image': original_image,
-        # 'gradcam_image': gradcam_image,
-        # 'uploaded_image_url': image_url
-        # }
-
-        # return redirect('result',patient_id=patient.id)
         return redirect('result',patient_id=patient.id)
     return render(request, 'pages/form.html')
 
@@ -134,9 +128,6 @@ def check(request):
         # Get the URL and path of the saved image
         image_url = patient_image.image.url
         image_path = patient_image.image.path
-
-        print("++++++++++++++++++++++++ image_url:", image_url)
-        print("=================================image_path", image_path)
         # Load and preprocess the image
         X_instance = load_and_preprocess_image(image_path)
         # Get the model's prediction

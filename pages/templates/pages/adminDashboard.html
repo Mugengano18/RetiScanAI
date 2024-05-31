@@ -1,0 +1,120 @@
+{% extends "base.html" %} {% load static %} {% block content %}
+<div class="grid-container">
+  <!-- Sidebar -->
+  <aside id="sidebar">
+    <div class="sidebar-title">
+      <div class="sidebar-brand">RetiscanAI</div>
+      <span class="material-icons-outlined" onclick="closeSidebar()"
+        >close</span
+      >
+    </div>
+
+    <ul class="sidebar-list">
+      <li class="sidebar-list-item" id="nav_patient">
+        <a href="#">Patients </a>
+      </li>
+
+      <li class="sidebar-list-item">
+        <a href="{% url 'logout' %}" target="_blank"> logout </a>
+      </li>
+    </ul>
+  </aside>
+  <!-- End Sidebar -->
+
+  <!-- Main -->
+  <main class="main-container">
+    <div class="col py-3">
+      <div class="container-fluid p-4">
+        <div class="row align-items-start">
+          <div class="col">
+            <h2 class="underlined-text">Users</h2>
+          </div>
+          <div class="col-12 col-md-6 col-lg-3 d-flex align-items-center">
+            <form class="d-flex flex-column flex-md-row w-100" action="{% url 'dashboard' %}">
+              <div
+                class="input-group rounded-pill me-2 mb-3 mb-md-0 flex-grow-1"
+              >
+                <input
+                  class="form-control w-75"
+                  type="search"
+                  placeholder="Search Patients"
+                  aria-label="Search"
+                  name="search"
+                />
+                <button class="btn btn-green" type="submit">
+                  <i class="bi bi-search bi-sm"></i>
+                </button>
+              </div>
+            </form>
+              <a
+                href="{% url 'form' %}"
+                class="btn btn-green rounded-pill d-flex align-items-center"
+              >
+                <i class="bi bi-plus"></i> New
+              </a>
+            
+          </div>
+        </div>
+      </div>
+      <div class="container-fluid px-5">
+        <table class="table">
+          <thead>
+            <tr class="text-success table-primary">
+              <th scope="col">No</th>
+              <th scope="col">Fullname</th>
+              <th scope="col">Email</th>
+              <th scope="col">Role</th>
+              <th scope="col">Gender</th>
+            </tr>
+          </thead>
+          <tbody class="table-group-divider">
+            {% for patient in page_obj %}
+
+            <tr>
+              <td>{{ patient.id }}</td>
+              <td>
+                <a href="{% url 'result' patient.id %}" class="text-black">
+                  {{ patient.full_name }}
+                </a>
+              </td>
+              <td>{{ patient.birth_date }}</td>
+              <td>{{ patient.phone_number }}</td>
+              <td>{{ patient.gender }}</td>
+              <td>{{patient.predicted_class_name}}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </table>
+  </div>
+  <nav aria-label="Page navigation example">
+      <ul class="pagination justify-content-center">
+          {% if page_obj.has_previous %}
+          <li class="page-item">
+              <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+          </li>
+          {% endif %}
+          
+          {% for num in page_obj.paginator.page_range %}
+          {% if page_obj.number == num %}
+          <li class="page-item active">
+              <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+          </li>
+          {% else %}
+          <li class="page-item">
+              <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+          </li>
+          {% endif %}
+          {% endfor %}
+          {% if page_obj.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+        </li>
+        {% endif %}
+      </ul>
+  </nav>
+    </div>
+  </main>
+</div>
+{%endblock%}
