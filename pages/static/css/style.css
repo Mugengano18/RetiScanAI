@@ -1,11 +1,11 @@
 /*--------------------------------------------------------------
 # General
 --------------------------------------------------------------*/
-
-body {
+preloader body {
   font-family: "Open Sans", sans-serif;
   color: #444444;
-  overflow: auto hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 a {
@@ -71,6 +71,7 @@ h6 {
 /*--------------------------------------------------------------
   # Preloader
   --------------------------------------------------------------*/
+
 #preloader {
   position: fixed;
   top: 0;
@@ -378,6 +379,10 @@ h6 {
 #hero .container-fluid {
   padding-top: 84px;
 }
+.result_container {
+  padding: 2rem 10rem 5rem;
+  overflow: auto;
+}
 
 #hero h1 {
   margin: 0;
@@ -488,7 +493,6 @@ h6 {
   --------------------------------------------------------------*/
 section {
   padding: 50px 0 0;
-  overflow: hidden auto;
 }
 
 .section-bg {
@@ -683,4 +687,38 @@ section {
   border-radius: 4px;
   text-decoration: none;
   display: inline-block;
+}
+
+#pagepreloader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
+  overflow: hidden;
+  background: #fff;
+}
+
+#pagepreloader:before {
+  content: "";
+  position: fixed;
+  top: calc(50% - 30px);
+  left: calc(50% - 30px);
+  border: 6px solid #fff;
+  border-top-color: #1f544c;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: animate-preloader 1s linear infinite;
+}
+
+@keyframes animate-preloader {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }

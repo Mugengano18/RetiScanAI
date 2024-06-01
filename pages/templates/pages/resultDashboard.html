@@ -1,5 +1,5 @@
 {% extends "base.html" %} {% load static %} {% block content %}
-<div class="container mt-4 overflow-auto">
+<div class="container mt-4">
   <!-- Modal -->
   <div
     class="modal fade"
@@ -50,6 +50,9 @@
   </div>
 
   <div class="row mb-3 overflow-auto">
+    <div class="col-12 mb-3">
+      <a href="{% url 'dashboard' %}" class="btn btn-success col-2">Back</a>
+    </div>
     <div class="col-12">
       <div class="card">
         <div class="card-body d-flex justify-content-between">
@@ -118,15 +121,21 @@
         <h5 class="text-black">
           Predicted Stage: {{ patient.predicted_class_name}}
         </h5>
+        <hr />
         <h6 class="text-black">probability: {{ patient.probability}}</h6>
-        <p>Doctor Description:</p>
+        <hr />
+        {% if patient.is_confirm %}
+        <h6 class="text-black">Doctor Prescribe:</h6>
         <p>{{patient.description}}</p>
+        {% endif %}
       </div>
-      <div class="col-8 overflow-auto" style="height: 150px">
+      <div class="col-8">
         <h6 class="text-black">Description:</h6>
         <p>{{stage_note.characteristic}}</p>
+        <hr />
         <h6 class="text-black">Quadrant analysis:</h6>
         <p>{{stage_note.quadrant_analysis}}</p>
+        <hr />
         <h6 class="text-black">Recommended Actions:</h6>
         <p>{{stage_note.action}}</p>
       </div>

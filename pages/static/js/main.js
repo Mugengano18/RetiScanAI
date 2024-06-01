@@ -193,6 +193,25 @@
   new PureCounter();
 })();
 
+function handlePreloader(preloaderId) {
+  let preloader = document.querySelector(preloaderId);
+  if (preloader) {
+    preloader.style.display = "block";
+
+    setTimeout(() => {
+      preloader.style.display = "none";
+    }, 2000);
+  }
+}
+
+let loginButton = document.querySelector(".spinnerBtn");
+if (loginButton) {
+  console.log("clicked");
+  loginButton.addEventListener("click", () => {
+    handlePreloader("#pagepreloader");
+  });
+}
+
 const nav_patient = document.getElementById("nav_patient");
 const nav_dashboard = document.getElementById("nav_dashboard");
 
