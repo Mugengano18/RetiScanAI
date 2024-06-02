@@ -24,13 +24,6 @@ class Patient(models.Model):
     def __str__(self):
         return self.full_name
     
-
-class PatientImage(models.Model):
-    name = models.CharField(max_length=250,default="image")
-    image = models.ImageField(upload_to="eye_check")
-
-    def __str__(self):
-        return self.name
     
 class ResultDescription(models.Model):
     name = models.CharField(max_length=250, null=True, blank=True)

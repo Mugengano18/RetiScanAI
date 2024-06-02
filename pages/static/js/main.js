@@ -206,7 +206,6 @@ function handlePreloader(preloaderId) {
 
 let loginButton = document.querySelector(".spinnerBtn");
 if (loginButton) {
-  console.log("clicked");
   loginButton.addEventListener("click", () => {
     handlePreloader("#pagepreloader");
   });
@@ -237,3 +236,19 @@ nav_dashboard.addEventListener("click", () => {
   document.getElementById("patient_section").style.display = "none";
   localStorage.setItem("currentPage", "dashboard");
 });
+
+let alertMessage = document.getElementById("customAlert");
+
+const showAlert = (alertId) => {
+  if (alertId) {
+    alertId.style.display = "block";
+
+    setTimeout(() => {
+      alertId.style.display = "none";
+    }, 2000);
+  }
+};
+
+if (alertMessage) {
+  showAlert(alertMessage);
+}
