@@ -1,49 +1,154 @@
 {% extends "base.html" %} {% load static %} {% block content %}
 <div class="container mt-4">
-    <div class="row mb-3">
-        <div class="col-12">
-            <div class="alert alert-primary" role="alert">
-                Negative For DR
-            </div>
+  <!-- Modal -->
+  <div
+    class="modal fade"
+    id="exampleModal"
+    tabindex="-1"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Confirm Result</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
         </div>
-    </div>
-    <div class="row mb-3">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Patient: {{ patient.full_name }} | {{ patient.birth_date }} | {{ patient.gender }}</h5>
-                </div>
+        <form action="{% url 'update_patient' patient.id %}" method="POST">
+          {% csrf_token %}
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="exampleFormControlTextarea1" class="form-label"
+                >Write Prescribe Here</label
+              >
+              <textarea
+                class="form-control"
+                id="exampleFormControlTextarea1"
+                rows="3"
+                name="description"
+              ></textarea>
             </div>
-        </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-danger"
+              data-bs-dismiss="modal"
+            >
+              Cancel
+            </button>
+            <button type="submit" class="btn btn-success">Confirm</button>
+          </div>
+        </form>
+      </div>
     </div>
+  </div>
+
+  <div class="row mb-3 overflow-auto">
+    <div class="col-12 mb-3">
+      <a href="{% url 'dashboard' %}" class="btn btn-success col-2">Back</a>
+    </div>
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body d-flex justify-content-between">
+          <h5 class="card-title">
+            Patient: {{ patient.full_name }} | {{ patient.birth_date }} |
+            {{patient.gender }}
+          </h5>
+          {% if user.role == "Doctor" %}
+          <a
+            href="#"
+            class="btn btn-success"
+            data-bs-toggle="modal"
+            data-bs-target="#exampleModal"
+            >Prescribe</a
+          >
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4 mb-3">
+      <div class="card">
+        <h6 class="card-title mb-2 text-black text-center pt-4">
+          Original Retina image
+        </h6>
+        <div class="card-body">
+          <img
+            src="{{patient.eye_image.url}}"
+            class="img-fluid rounded object-fit-cover"
+            style="width: 100%"
+            alt="Eye image"
+          />
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-8 mb-3 border rounded-3 d-flex">
+      <div class="card col-md-6 border-0">
+        <div class="card-body pt-6">
+          <img
+            src="data:image/png;base64,{{patient.gradcam_image|safe}}"
+            class="img-fluid rounded object-fit-cover"
+            style="width: 100%; height: auto"
+            alt="Grad-CAM Heatmap"
+          />
+        </div>
+      </div>
+      <div class="card col-md-6 border-0">
+        <div class="card-body">
+          <div class="image-wrapper">
+            <img
+              src="data:image/png;base64,{{patient.quadrants_image|safe}}"
+              class="img-fluid rounded object-fit-cover"
+              style="width: 100%; height: auto"
+              alt="Grad-CAM Heatmap"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-12 mt-3">
     <div class="row">
-        <div class="col-md-4 mb-3">
-            <div class="card">
-                <div class="card-body">
-                    <h6 class="card-subtitle mb-2 text-muted">Sharp summary</h6>
-                    <div class="border rounded" style="height: 400px;"></div>
-                </div>
-            </div>
-        </div>
-      
-        <div class="col-md-4 mb-3">
-            <div class="card" style="height: 450px;">
-                <div class="card-body text-center">
-                    <h6 class="card-subtitle mb-2 text-primary">Eye image</h6>
-                    <img src="{{patient.eye_image.url}}" class="img-fluid rounded" alt="Eye image">
-                </div>
-            </div>
-        </div>
+      <div class="col-4">
+        <h5 class="text-black">
+          Predicted Stage: {{ patient.predicted_class_name}}
+        </h5>
+        <hr />
+        <h6 class="text-black">probability: {{ patient.probability}}</h6>
+        <hr />
+        {% if patient.is_confirm %}
+        <h6 class="text-black">Doctor Prescribe:</h6>
+        <p>{{patient.description}}</p>
+        {% endif %}
+      </div>
+      <div class="col-8">
+        <h6 class="text-black">Description:</h6>
+        <p>{{stage_note.characteristic}}</p>
+        <hr />
+        <h6 class="text-black">Quadrant analysis:</h6>
+        <p>{{stage_note.quadrant_analysis}}</p>
+        <hr />
+        <h6 class="text-black">Recommended Actions:</h6>
+        <p>{{stage_note.action}}</p>
+      </div>
     </div>
-</div>
+  </div>
 </div>
 <script>
-    const accordionItems = document.querySelectorAll('.border-b');
+  const accordionItems = document.querySelectorAll(".border-b");
 
-    accordionItems.forEach(item => {
-        item.addEventListener('click', () => {
-            item.nextElementSibling.classList.toggle('hidden');
-        });
+  accordionItems.forEach((item) => {
+    item.addEventListener("click", () => {
+      item.nextElementSibling.classList.toggle("hidden");
     });
+  });
 </script>
- {% endblock %}
+{% endblock %}

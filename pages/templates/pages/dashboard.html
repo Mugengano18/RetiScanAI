@@ -1,56 +1,48 @@
 {% extends "base.html" %} {% load static %} {% block content %}
-<div class="container-fluid">
-  <div class="row flex-nowrap">
-    <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-green">
-      <div
-        class="d-flex flex-column align-items-start align-items-sm-start px-2 pt-1 text-white min-vh-100"
+<div class="grid-container">
+  <!-- Sidebar -->
+  <aside id="sidebar">
+    <div class="sidebar-title">
+      <div class="sidebar-brand">RetiscanAI</div>
+      <span class="material-icons-outlined" onclick="closeSidebar()"
+        >close</span
       >
-        <a
-          href="#"
-          class="d-flex align-items-center text-white text-decoration-none my-5"
-        >
-          <img
-            src="{{ user.profile.image.url }}"
-            alt="profile Image"
-            width="50"
-            height="55"
-            class="rounded-circle"
-          />
-          <span class="d-none d-sm-inline mx-1">
-            <p style="font-size: 0.9rem; margin-bottom: 0">
-              {{ user.fullname }}
-            </p>
-            <p style="font-size: 0.8rem; margin-bottom: 0">{{ user.email }}</p>
-          </span>
-        </a>
-        <ul
-          class="nav nav-pills d-flex flex-column mb-sm-auto mb-0 sidebar-nav"
-          id="menu"
-        >
-          <li class="nav-item">
-            <a href="#" class="nav-link px-0 align-middle text-white">
-              <i class="fs-4 bi-house"></i>
-              <span class="ms-1 d-none d-sm-inline">DashBoard</span>
-            </a>
-          </li>
-          <li>
-            <a href="#" class="nav-link px-0 align-middle text-white">
-              <i class="fs-4 bi-people"></i>
-              <span class="ms-1 d-none d-sm-inline">Users</span>
-            </a>
-          </li>
-          <li>
-            <a
-              href="{% url 'logout'%}"
-              class="nav-link px-0 align-middle text-white"
-            >
-              <i class="fs-4 bi-box-arrow-left"></i>
-              <span class="ms-1 d-none d-sm-inline">Logout</span>
-            </a>
-          </li>
-        </ul>
+    </div>
+
+    <ul class="sidebar-list">
+      <li class="sidebar-list-item" id="nav_dashboard">
+        <a href="#">Dashboard </a>
+      </li>
+      <li class="sidebar-list-item" id="nav_patient">
+        <a href="#">Patients </a>
+      </li>
+
+      <li class="sidebar-list-item">
+        <a href="{% url 'logout' %}"> logout </a>
+      </li>
+    </ul>
+  </aside>
+  <!-- End Sidebar -->
+
+  <!-- Main -->
+  <main class="main-container" id="dashboard_section">
+    <div class="main-title">
+      <h2>DASHBOARD</h2>
+    </div>
+
+    <div class="charts">
+      <div class="charts-card">
+        <h2 class="chart-title">Gender with DR</h2>
+        <canvas id="pieChart"></canvas>
+      </div>
+      <div class="charts-card">
+        <h2 class="chart-title">DR Categories</h2>
+        <canvas id="barChart"></canvas>
       </div>
     </div>
+  </main>
+  <!-- End Main -->
+  <main class="main-container" id="patient_section">
     <div class="col py-3">
       <div class="container-fluid p-4">
         <div class="row align-items-start">
@@ -58,7 +50,7 @@
             <h2 class="underlined-text">Patients</h2>
           </div>
           <div class="col-12 col-md-6 col-lg-3 d-flex align-items-center">
-            <form class="d-flex flex-column flex-md-row w-100">
+            <form class="d-flex flex-column flex-md-row w-100" action="{% url 'dashboard' %}">
               <div
                 class="input-group rounded-pill me-2 mb-3 mb-md-0 flex-grow-1"
               >
@@ -67,18 +59,20 @@
                   type="search"
                   placeholder="Search Patients"
                   aria-label="Search"
+                  name="search"
                 />
-                <a href="#" class="btn btn-green" type="submit"
-                  ><i class="bi bi-search bi-sm"></i
-                ></a>
+                <button class="btn btn-green" type="submit">
+                  <i class="bi bi-search bi-sm"></i>
+                </button>
               </div>
+            </form>
               <a
                 href="{% url 'form' %}"
-                class="btn btn-green rounded-pill d-flex"
+                class="btn btn-green rounded-pill d-flex align-items-center"
               >
-                <i class="bi bi-plus"></i>New
+                <i class="bi bi-plus"></i> New
               </a>
-            </form>
+            
           </div>
         </div>
       </div>
@@ -86,54 +80,62 @@
         <table class="table">
           <thead>
             <tr class="text-success table-primary">
+              <th scope="col">No</th>
               <th scope="col">Name</th>
-              <th scope="col">Age</th>
+              <th scope="col">Birth Date</th>
+              <th scope="col">Phone Number</th>
               <th scope="col">Gender</th>
               <th scope="col">Result</th>
             </tr>
           </thead>
           <tbody class="table-group-divider">
+            {% for patient in page_obj %}
+
             <tr>
-              <td>John Doe</td>
-              <td>87</td>
-              <td>Male</td>
-              <td>Moderate</td>
+              <td>{{ forloop.counter0|add:start_number }}</td>
+              <td>
+                <a href="{% url 'result' patient.id %}" class="text-black">
+                  {{ patient.full_name }}
+                </a>
+              </td>
+              <td>{{ patient.birth_date }}</td>
+              <td>{{ patient.phone_number }}</td>
+              <td>{{ patient.gender }}</td>
+              <td>{{patient.predicted_class_name}}</td>
             </tr>
-            <tr>
-              <td>John Doe</td>
-              <td>87</td>
-              <td>Male</td>
-              <td>Moderate</td>
-            </tr>
-            <tr>
-              <td>John Doe</td>
-              <td>87</td>
-              <td>Male</td>
-              <td>Moderate</td>
-            </tr>
-            <tr>
-              <td>John Doe</td>
-              <td>87</td>
-              <td>Male</td>
-              <td>Moderate</td>
-            </tr>
+            {% endfor %}
           </tbody>
         </table>
       </div>
-      <nav aria-label="Page navigation example">
-        <ul class="pagination justify-content-center">
-          <li class="page-item">
-            <a class="page-link" href="#">Previous</a>
-          </li>
-          <li class="page-item"><a class="page-link" href="#">1</a></li>
-          <li class="page-item"><a class="page-link" href="#">2</a></li>
-          <li class="page-item"><a class="page-link" href="#">3</a></li>
-          <li class="page-item">
-            <a class="page-link" href="#">Next</a>
-          </li>
-        </ul>
-      </nav>
-    </div>
+    </table>
   </div>
+  <nav aria-label="Page navigation example">
+      <ul class="pagination justify-content-center">
+          {% if page_obj.has_previous %}
+          <li class="page-item">
+              <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+          </li>
+          {% endif %}
+          
+          {% for num in page_obj.paginator.page_range %}
+          {% if page_obj.number == num %}
+          <li class="page-item active">
+              <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+          </li>
+          {% else %}
+          <li class="page-item">
+              <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+          </li>
+          {% endif %}
+          {% endfor %}
+          {% if page_obj.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+        </li>
+        {% endif %}
+      </ul>
+  </nav>
+    </div>
+  </main>
 </div>
 {%endblock%}
