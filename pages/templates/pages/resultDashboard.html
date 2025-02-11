@@ -1,0 +1,49 @@
+{% extends "base.html" %} {% load static %} {% block content %}
+<div class="container mt-4">
+    <div class="row mb-3">
+        <div class="col-12">
+            <div class="alert alert-primary" role="alert">
+                Negative For DR
+            </div>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Patient: {{ patient.full_name }} | {{ patient.birth_date }} | {{ patient.gender }}</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <h6 class="card-subtitle mb-2 text-muted">Sharp summary</h6>
+                    <div class="border rounded" style="height: 400px;"></div>
+                </div>
+            </div>
+        </div>
+      
+        <div class="col-md-4 mb-3">
+            <div class="card" style="height: 450px;">
+                <div class="card-body text-center">
+                    <h6 class="card-subtitle mb-2 text-primary">Eye image</h6>
+                    <img src="{{patient.eye_image.url}}" class="img-fluid rounded" alt="Eye image">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<script>
+    const accordionItems = document.querySelectorAll('.border-b');
+
+    accordionItems.forEach(item => {
+        item.addEventListener('click', () => {
+            item.nextElementSibling.classList.toggle('hidden');
+        });
+    });
+</script>
+ {% endblock %}
