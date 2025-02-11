@@ -22,5 +22,6 @@ def send_sms(patient):
         data,
         auth=(str(os.getenv('SMS_USERNAME')), str(os.getenv('SMS_PASSWORD')))	
         )
+    print("response++++++",response)
     return response.status_code
     
